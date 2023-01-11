@@ -15,6 +15,7 @@ func main() {
 
 	fmt.Println("A área da circuferência é", area)
 
+	// initializing using blocks
 	const (
 		a = 1
 		b = 2
@@ -24,9 +25,9 @@ func main() {
 		c = 3
 		d = 4
 	)
-
 	fmt.Println(a, b, c, d)
 
+	// Initializing using a only line
 	var e, f bool = true, false
 	fmt.Println(e, f)
 
