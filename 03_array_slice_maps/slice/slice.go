@@ -19,11 +19,11 @@ func main() {
 	s2 := a2[1:3]
 	fmt.Println(a2, s2)
 
-	// new slice, but is appoint to same array
+	// New slice, but is appoint to same array
 	s3 := a2[:2]
 	fmt.Println(a2, s3)
 
-	// you can imagine a slice as: lenght and a point to a element of an array
+	// You can imagine a slice as: lenght and a point to a element of an array
 	s4 := s2[:1]
 	fmt.Println(s2, s4)
 }
