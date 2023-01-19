@@ -1,0 +1,17 @@
+Competition Vs Parallelism
+
+Go is a competition language
+
+Parallelism - capability to run multiple codes at the same time in diferents fisiical cores
+
+Concurrency - capability to administrate many processes at the same time e this can be done in a single core
+
+Concurrency anable parallelism
+
+It is possible that concurrency is better than parallelism
+Parallelism demand much more from the SO and the hardware
+
+Concurrency is a way to structure your program.
+Is is a composition of processes (tipically functions) that execute independently
+
+
