@@ -134,3 +134,78 @@ func GetUserById(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 }
+
+// UpdateUser is a function that updates a user
+func UpdateUser(w http.ResponseWriter, r *http.Request) {
+	parameters := mux.Vars(r)
+
+	ID, erro := strconv.ParseUint(parameters["id"], 10, 32)
+	if erro != nil {
+		w.Write([]byte("Error converting id to integer"))
+		return
+	}
+
+	requestBody, erro := ioutil.ReadAll(r.Body)
+	if erro != nil {
+		w.Write([]byte("Error reading request body"))
+		return
+	}
+
+	var user user
+	if erro := json.Unmarshal(requestBody, &user); erro != nil {
+		w.Write([]byte("Error unmarshalling request body"))
+		return
+	}
+
+	db, erro := db.Connection()
+	if erro != nil {
+		w.Write([]byte("Error connecting to database"))
+		return
+	}
+	defer db.Close()
+
+	statement, erro := db.Prepare("update users set name = ?, email = ? where id = ?")
+	if erro != nil {
+		w.Write([]byte("Error preparing statement"))
+		return
+	}
+	defer statement.Close()
+
+	if _, erro := statement.Exec(user.Name, user.Email, ID); erro != nil {
+		w.Write([]byte("Error executing statement"))
+		return
+	}
+
+	w.WriteHeader(http.StatusNoContent)
+}
+
+// DeleteUser is a function that deletes a user
+func DeleteUser(w http.ResponseWriter, r *http.Request) {
+	parameters := mux.Vars(r)
+
+	ID, erro := strconv.ParseUint(parameters["id"], 10, 32)
+	if erro != nil {
+		w.Write([]byte("Error converting id to integer"))
+	}
+
+	db, erro := db.Connection()
+	if erro != nil {
+		w.Write([]byte("Error connecting to database"))
+		return
+	}
+	defer db.Close()
+
+	statement, erro := db.Prepare("delete from users where id = ?")
+	if erro != nil {
+		w.Write([]byte("Error preparing statement"))
+		return
+	}
+	defer statement.Close()
+
+	if _, erro := statement.Exec(ID); erro != nil {
+		w.Write([]byte("Error executing statement"))
+		return
+	}
+
+	w.WriteHeader(http.StatusNoContent)
+}
